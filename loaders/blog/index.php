@@ -53,5 +53,5 @@ if ( $blog_path === '/' ) {
 	);
 
 } else {
-	nylen_serve_404();
+	nylen_serve_error( 404 );
 }

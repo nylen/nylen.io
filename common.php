@@ -9,7 +9,7 @@ $nav_items = array(
 if ( ! isset( $page_language ) ) {
 	$page_language = null;
 }
-$is_404 = false;
+$is_error_page = false;
 
 function nylen_redirect_index_php() {
 	// Hide index.php as an implementation detail and avoid duplicated content
@@ -27,13 +27,8 @@ function nylen_redirect_index_php() {
 	}
 }
 
-function nylen_serve_static_page( $page_path, $is_404 = false ) {
+function nylen_serve_static_page( $page_path ) {
 	nylen_redirect_index_php();
-
-	if ( $is_404 ) {
-		header( 'HTTP/1.1 404 Not Found' );
-		$GLOBALS['is_404'] = true;
-	}
 
 	// Page header.
 	nylen_begin_page( $page_path );
@@ -112,14 +107,32 @@ function nylen_serve_blog_post( $blog_path, $year, $month, $slug ) {
 	nylen_end_page();
 }
 
-function nylen_serve_404() {
-	global $page_language;
+function nylen_serve_error( $code ) {
+	global $page_language, $is_error_page;
+
+	$is_error_page = true;
+
+	switch ( $code ) {
+		case 401:
+			header( 'WWW-Authenticate: Basic realm="restricted"' );
+			header( 'HTTP/1.1 401 Unauthorized' );
+			break;
+
+		case 404:
+			header( 'HTTP/1.1 404 Not Found' );
+			break;
+
+		case 500:
+		default:
+			header( 'HTTP/1.1 500 Internal Server Error' );
+			break;
+	}
 
 	if ( strpos( $_SERVER['REQUEST_URI'], '/es/' ) === false ) {
-		nylen_serve_static_page( '/404/', true );
+		nylen_serve_static_page( "/$code/", true );
 	} else {
 		$page_language = 'es';
-		nylen_serve_static_page( '/es/404/', true );
+		nylen_serve_static_page( "/es/$code/", true );
 	}
 }
 
@@ -246,7 +259,7 @@ function nylen_regenerate_html_if_needed(
 }
 
 function nylen_begin_page( $page_path, $page_title = '' ) {
-	global $nav_items, $page_language, $is_404;
+	global $nav_items, $page_language, $is_error_page;
 
 	if ( ! isset( $page_language ) ) {
 		if ( preg_match( '#^/es/#', $page_path ) ) {
@@ -519,7 +532,7 @@ footer {
 		echo '</li>';
 		echo "\n";
 	}
-	if ( ! $is_404 ) {
+	if ( ! $is_error_page ) {
 		if ( $page_language === 'es' ) {
 			$switch_language_url   = preg_replace( '#^/es/#', '/', $page_path );
 			$switch_language_text  = 'In English';
