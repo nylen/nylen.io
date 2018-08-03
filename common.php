@@ -492,7 +492,12 @@ footer {
 	text-align: center;
 }
 
-@media (max-width: 660px) {
+@media screen and (max-width: 660px) {
+	footer .footer-3 {
+		display: block;
+	}
+}
+@media screen and (max-width: 480px) {
 	footer .footer-2 {
 		display: block;
 	}
@@ -549,16 +554,20 @@ function nylen_end_page() {
 		case 'es':
 ?>
 			Derechos &copy; 2018 James Nylen.
-			Hecho con <a href="https://es.wikipedia.org/wiki/Vim">vim</a>.
-			<span class="footer-2">Tamaño de esta página: {PAGE_SIZE}.</span>
+			<span class="footer-2">
+				Hecho a mano con <a href="https://es.wikipedia.org/wiki/Vim">vim</a>.
+			</span>
+			<span class="footer-3">Tamaño de esta página: {PAGE_SIZE}.</span>
 <?php
 			break;
 
 		default:
 ?>
 			Copyright &copy; 2018 James Nylen.
-			Built with <a href="http://www.vim.org/">vim</a>.
-			<span class="footer-2">Page size: {PAGE_SIZE}.</span>
+			<span class="footer-2">
+				Hand-coded with <a href="http://www.vim.org/">vim</a>.
+			</span>
+			<span class="footer-3">Page size: {PAGE_SIZE}.</span>
 <?php
 			break;
 	}
