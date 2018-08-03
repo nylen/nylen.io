@@ -11,25 +11,6 @@ if ( ! isset( $page_language ) ) {
 }
 $is_404 = false;
 
-function nylen_pre_launch_preview() {
-	// Pre-launch functionality: Show a site preview if '?preview' or cookie is
-	// set, otherwise show a "coming soon" page.
-	if ( isset( $_GET['preview'] ) ) {
-		if ( $_GET['preview'] === 'false' ) {
-			// Disable the site preview
-			setcookie( 'preview', '', time() - 3600 );
-			$_COOKIE['preview'] = false;
-		} else {
-			// Enable the site preview
-			setcookie( 'preview', 'true' );
-			$_COOKIE['preview'] = true;
-		}
-	}
-	if ( empty( $_COOKIE['preview'] ) ) {
-		die( require( dirname( __FILE__ ) . '/coming-soon.php' ) );
-	}
-}
-
 function nylen_redirect_index_php() {
 	// Hide index.php as an implementation detail and avoid duplicated content
 	// - redirect to the canonical URL without index.php.
@@ -48,8 +29,6 @@ function nylen_redirect_index_php() {
 
 function nylen_serve_static_page( $page_path, $is_404 = false ) {
 	nylen_redirect_index_php();
-
-	nylen_pre_launch_preview();
 
 	if ( $is_404 ) {
 		header( 'HTTP/1.1 404 Not Found' );
