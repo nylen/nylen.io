@@ -408,6 +408,12 @@ ul li, ol li {
 	background: #6bb2f5;
 	color: #1c2e40;
 }
+hr {
+	border-width: 0;
+	border-bottom: 2px solid #2d4a66;
+	padding: 0;
+	margin: 24px 0;
+}
 
 /* Begin page-specific styles */
 <?php if ( preg_match( '#/contact/$#', $page_path ) ) { ?>
