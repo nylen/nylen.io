@@ -493,7 +493,27 @@ input[type="submit"] {
 	margin: 30px 0;
 	text-align: center;
 }
-<?php } /* preg_match( '#/contact/$', $page_path ) */ ?>
+<?php } else if ( preg_match( '#^/admin/$#', $page_path ) ) { ?>
+table#contacts th {
+	text-align: left;
+}
+table#contacts .date {
+	min-width: 215px;
+	padding-bottom: 4px;
+}
+table#contacts .message {
+	padding: 2px 6px;
+	margin-left: 6px;
+	border-left: 2px solid #2d4a66;
+}
+table#contacts .details {
+	font-style: italic;
+	color: #4879a6;
+	font-size: 85%;
+	padding-top: 4px;
+	padding-bottom: 12px;
+}
+<?php } ?>
 /* End page-specific styles */
 
 footer {
