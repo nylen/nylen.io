@@ -23,6 +23,7 @@ $line_num = 0;
 <table id="contacts">
 <?php
 while ( ( $line = fgets( $fp ) ) !== false ) {
+	$line_num++;
 	$contact = array_map( 'htmlentities', json_decode( $line, true ) );
 	$contact['message'] = str_replace( "\n", "<br />\n", $contact['message'] );
 	echo <<<HTML
@@ -30,6 +31,7 @@ while ( ( $line = fgets( $fp ) ) !== false ) {
 			<th class="date">$contact[date]</th>
 			<th class="name">$contact[name]</th>
 			<th class="email">$contact[email]</th>
+			<th class="number">$line_num</th>
 		</tr>
 		<tr>
 			<td class="message" colspan="3">$contact[message]</td>

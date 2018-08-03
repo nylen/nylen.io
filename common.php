@@ -505,6 +505,16 @@ table#contacts th {
 }
 table#contacts .date {
 	min-width: 215px;
+}
+table#contacts .number {
+	min-width: 20px;
+	text-align: right;
+}
+table#contacts .date,
+table#contacts .name,
+table#contacts .email,
+table#contacts .number {
+	padding-top: 20px;
 	padding-bottom: 4px;
 }
 table#contacts .message {
@@ -517,7 +527,6 @@ table#contacts .details {
 	color: #4879a6;
 	font-size: 85%;
 	padding-top: 4px;
-	padding-bottom: 12px;
 }
 <?php } ?>
 /* End page-specific styles */
