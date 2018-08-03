@@ -522,6 +522,7 @@ footer {
 function nylen_end_page() {
 	global $page_language;
 ?>
+
 		</div><!-- #content -->
 		<footer>
 <?php
