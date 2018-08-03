@@ -488,6 +488,12 @@ input[type="submit"] {
 	padding: 6px;
 	font-size: 18px;
 }
+
+#privacy {
+	color: #4879a6;
+	font-size: 14px;
+	font-style: italic;
+}
 <?php } else if ( preg_match( '#/blog/#', $page_path ) ) { ?>
 .under-construction {
 	margin: 30px 0;
