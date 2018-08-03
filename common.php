@@ -38,6 +38,11 @@ function nylen_serve_static_page( $page_path, $is_404 = false ) {
 	// Page header.
 	nylen_begin_page( $page_path );
 
+	// Page dynamic functionality, if any.
+	if ( preg_match( '#/contact/$#', $page_path ) ) {
+		require dirname( __FILE__ ) . '/page-contact.php';
+	}
+
 	// Page content.
 	nylen_static_page_content( $page_path );
 
@@ -202,6 +207,24 @@ function nylen_regenerate_html_if_needed(
 		$content
 	);
 
+	// Dynamic feature: Fill previous contact form values.
+	global $contact_form;
+	$content = str_replace(
+		'{contact_name}',
+		htmlentities( $contact_form['name'] ),
+		$content
+	);
+	$content = str_replace(
+		'{contact_email}',
+		htmlentities( $contact_form['email'] ),
+		$content
+	);
+	$content = str_replace(
+		'{contact_message}',
+		htmlentities( $contact_form['message'] ),
+		$content
+	);
+
 	if ( $echo ) {
 		print $content;
 	} else {
@@ -308,7 +331,7 @@ h3 {
 	font-size: 18px;
 	line-height: 18px;
 }
-p {
+p, .paragraph {
 	line-height: 20px;
 	margin: 18px 0;
 }
@@ -375,6 +398,21 @@ ul li, ol li {
 
 /* Begin page-specific styles */
 <?php if ( preg_match( '#/contact/$#', $page_path ) ) { ?>
+.messages {
+	border-left: 3px solid #1c2e40;
+	padding: 8px 8px 8px 10px;
+}
+.messages.success {
+	border-color: #080;
+	background: #cfc;
+	color: #040;
+}
+.messages.error {
+	border-left-color: #800;
+	background: #fcc;
+	color: #400;
+}
+
 fieldset {
 	border: none;
 	margin: 12px 0;

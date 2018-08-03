@@ -1,2 +1,2 @@
 RewriteEngine on
-RewriteRule ^.*$ / [R=301]
+RewriteRule !^contact-submit.php$ / [R=301]
