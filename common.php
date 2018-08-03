@@ -182,12 +182,6 @@ function nylen_regenerate_html_if_needed(
 			error_log( "generate page: $page_for_logs: start" );
 			require_once dirname( __FILE__ ) . '/vendor/autoload.php';
 			$html = \Michelf\MarkdownExtra::defaultTransform( file_get_contents( $md_file ) );
-			// Dynamic feature: GitHub repo count.
-			$html = str_replace(
-				'<code>{repo_count}</code>',
-				nylen_gh_repo_count(),
-				$html
-			);
 			ftruncate( $fp_html, 0 );
 			fwrite( $fp_html, $html );
 			flock( $fp_html, LOCK_UN );
@@ -200,6 +194,13 @@ function nylen_regenerate_html_if_needed(
 		// The generated HTML file is up to date.
 		$content = file_get_contents( $html_file );
 	}
+
+	// Dynamic feature: GitHub repo count.
+	$content = str_replace(
+		'<code>{repo_count}</code>',
+		nylen_gh_repo_count(),
+		$content
+	);
 
 	if ( $echo ) {
 		print $content;
