@@ -11,6 +11,8 @@ if ( ! isset( $page_language ) ) {
 }
 $is_error_page = false;
 
+require_once __DIR__ . '/colors.php';
+
 function nylen_redirect_index_php() {
 	// Hide index.php as an implementation detail and avoid duplicated content
 	// - redirect to the canonical URL without index.php.
@@ -286,33 +288,8 @@ function nylen_begin_page( $page_path, $page_title = '' ) {
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title><?php echo $page_title_full; ?></title>
 		<style>
-<?php /*
-COLORS
+<?php
 
-almost black: #0d161f
-  NOTE: not currently used
-  on white      18.23:1 (AAA)
-  on light blue  8.09:1 (AAA)
-
-dark blue: #1c2e40
-  on white      13.87:1 (AAA)
-  on light blue  6.15:1 (AA)
-
-blue gray: #2d4a66
-  on white       9.20:1 (AAA)
-  on light blue  4.08:1 (F)
-
-light blue gray: #4879a6
-  on white       4.60:1 (AA)
-
-light blue: #6bb2f5
-  on white       2.26:1 (F)
-  on dark blue   6.15:1 (AA)
-
-link text: #2e64eb
-  on white       5.07:1 (AA)
-  on dark blue   2.73:1 (F)
- */
 ?>
 * {
 	margin: 0;
@@ -321,7 +298,7 @@ link text: #2e64eb
 }
 body {
 	background: #fff;
-	color: #1c2e40;
+	color: <?php color( 'site_body_text' ); ?>;
 	font-family: "Open Sans", sans-serif;
 	font-weight: 400;
 	font-size: 16px;
@@ -330,7 +307,7 @@ body {
 	max-width: 660px;
 }
 a {
-	color: #2e64eb;
+	color: <?php color( 'site_link_text' ); ?>;
 	text-decoration: none;
 }
 a:hover {
@@ -352,6 +329,7 @@ h1 {
 h2 {
 	font-size: 24px;
 	line-height: 24px;
+	color: <?php color( 'site_h2_text' ); ?>;
 }
 h3 {
 	font-size: 18px;
@@ -370,7 +348,8 @@ ul li, ol li {
 }
 
 #site-title {
-	border-bottom: 2px solid #2d4a66;
+	color: <?php color( 'site_title_text' ); ?>;
+	border-bottom: 2px solid <?php color( 'site_borders_hr' ); ?>;
 	padding-bottom: 8px;
 	margin: 0;
 }
@@ -391,21 +370,21 @@ ul li, ol li {
 	display: inline-block;
 	font-weight: bold;
 	padding: 8px 12px;
-	color: #1c2e40;
+	color: <?php color( 'site_nav_link_text' ); ?>;
 }
 
 #nav li a:hover {
-	background: #6bb2f5;
+	background: <?php color( 'site_nav_hover_bg' ); ?>;
 	text-decoration: none;
 }
 
 #nav li.active a {
 	color: #fff;
-	background: #1c2e40;
+	background: <?php color( 'site_nav_active_bg' ); ?>;
 }
 
 #nav li.active a:hover {
-	color: #6bb2f5;
+	color: <?php color( 'site_nav_hover_bg' ); ?>;
 }
 
 #nav li.switch-language {
@@ -415,15 +394,15 @@ ul li, ol li {
 	background: #fff;
 	font-weight: normal;
 	font-size: 14px;
-	color: #2d4a66;
+	color: <?php color( 'site_nav_subtle_text' ); ?>;
 }
 #nav li.switch-language a:hover {
-	background: #6bb2f5;
-	color: #1c2e40;
+	color: <?php color( 'site_nav_link_text' ); ?>;
+	background: <?php color( 'site_nav_hover_bg' ); ?>;
 }
 hr {
 	border-width: 0;
-	border-bottom: 2px solid #2d4a66;
+	border-bottom: 2px solid <?php color( 'site_borders_hr' ); ?>;
 	padding: 0;
 	margin: 24px 0;
 }
@@ -431,7 +410,7 @@ hr {
 /* Begin page-specific styles */
 <?php if ( preg_match( '#/contact/$#', $page_path ) ) { ?>
 .messages {
-	border-left: 3px solid #1c2e40;
+	border-left: 3px solid <?php color( 'site_borders_hr' ); ?>;
 	padding: 8px 8px 8px 10px;
 }
 .messages.success {
@@ -450,6 +429,7 @@ fieldset {
 	margin: 12px 0;
 }
 fieldset label {
+	color: <?php color( 'site_form_label_text' ); ?>;
 	font-weight: 600;
 	display: block;
 	font-size: 18px;
@@ -467,12 +447,12 @@ fieldset.inline input {
 
 fieldset .description {
 	font-size: 14px;
-	color: #4879a6;
+	color: <?php color( 'site_subtle_text' ); ?>;
 	margin-top: 4px;
 }
 
 input[type="text"], textarea {
-	border: 1px solid #4879a6;
+	border: 1px solid <?php color( 'site_form_borders' ); ?>;
 	font-size: 16px;
 	padding: 3px;
 }
@@ -490,7 +470,7 @@ input[type="submit"] {
 }
 
 #privacy {
-	color: #4879a6;
+	color: <?php color( 'site_subtle_text' ); ?>;
 	font-size: 14px;
 	font-style: italic;
 }
@@ -520,11 +500,11 @@ table#contacts .number {
 table#contacts .message {
 	padding: 2px 6px;
 	margin-left: 6px;
-	border-left: 2px solid #2d4a66;
+	border-left: 2px solid <?php color( 'site_borders_hr' ); ?>;
 }
 table#contacts .details {
 	font-style: italic;
-	color: #4879a6;
+	color: <?php color( 'site_subtle_text' ); ?>;
 	font-size: 85%;
 	padding-top: 4px;
 }
@@ -533,10 +513,10 @@ table#contacts .details {
 
 footer {
 	margin-top: 24px;
-	border-top: 2px solid #2d4a66;
+	border-top: 2px solid <?php color( 'site_borders_hr' ); ?>;
 	padding-top: 12px;
 	font-size: 14px;
-	color: #4879a6;
+	color: <?php color( 'site_subtle_text' ); ?>;
 	text-align: center;
 }
 
