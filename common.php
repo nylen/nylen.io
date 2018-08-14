@@ -29,7 +29,7 @@ function nylen_redirect_index_php() {
 	}
 }
 
-function nylen_serve_static_page( $page_path ) {
+function nylen_serve_page( $page_path ) {
 	nylen_redirect_index_php();
 
 	// Page header.
@@ -41,7 +41,7 @@ function nylen_serve_static_page( $page_path ) {
 	}
 
 	// Page content.
-	nylen_static_page_content( $page_path );
+	nylen_page_content( $page_path );
 
 	// Page footer.
 	nylen_end_page();
@@ -74,7 +74,7 @@ function nylen_serve_blog_index( $blog_path, $year = null, $month = null ) {
 
 	// Placeholder page content.
 	global $page_language;
-	nylen_static_page_content(
+	nylen_page_content(
 		$page_language === 'es' ? '/es/blog/' : '/blog/'
 	);
 	echo '<!-- ' . json_encode( array(
@@ -131,16 +131,17 @@ function nylen_serve_error( $code ) {
 	}
 
 	if ( strpos( $_SERVER['REQUEST_URI'], '/es/' ) === false ) {
-		nylen_serve_static_page( "/$code/", true );
+		nylen_serve_page( "/$code/", true );
 	} else {
 		$page_language = 'es';
-		nylen_serve_static_page( "/es/$code/", true );
+		nylen_serve_page( "/es/$code/", true );
 	}
 }
 
-function nylen_static_page_content( $page_path ) {
-	// The page content will come from a Markdown source file that is converted
-	// to HTML "just in time" when the Markdown source is updated.
+function nylen_page_filename( $page_path, $ext = '' ) {
+	// Get a filename associated with the page.  At the moment this could be
+	// .md, .html, or .php, or we can return the base filename with no
+	// extension.
 
 	$filename_base = str_replace( '/', '-', trim( $page_path, '/' ) );
 	if ( $filename_base === '' ) {
@@ -148,6 +149,18 @@ function nylen_static_page_content( $page_path ) {
 	} else if ( $filename_base === 'es' ) {
 		$filename_base = 'es-index';
 	}
+
+	if ( ! $ext ) {
+		return $filename_base;
+	}
+	return $filename_base . '.' . trim( $ext, '.' );
+}
+
+function nylen_page_content( $page_path ) {
+	// The page content will come from a Markdown source file that is converted
+	// to HTML "just in time" when the Markdown source is updated.
+
+	$filename_base = nylen_page_filename( $page_path );
 
 	$md_file   = dirname( __FILE__ ) . '/md/' . $filename_base . '.md';
 	$html_file = dirname( __FILE__ ) . '/html/' . $filename_base . '.html';
