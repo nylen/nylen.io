@@ -1,6 +1,6 @@
 <?php
 
-require dirname( __FILE__ ) . '/contact-messages.php';
+require dirname( __DIR__ ) . '/contact-messages.php';
 
 if ( isset( $_GET['msg'] ) ) {
 	global $page_language;

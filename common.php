@@ -36,8 +36,9 @@ function nylen_serve_page( $page_path ) {
 	nylen_begin_page( $page_path );
 
 	// Page dynamic functionality, if any.
-	if ( preg_match( '#/contact/$#', $page_path ) ) {
-		require dirname( __FILE__ ) . '/page-contact.php';
+	$php_file = __DIR__ . '/pages/' . nylen_page_filename( $page_path, 'php' );
+	if ( file_exists( $php_file ) ) {
+		require $php_file;
 	}
 
 	// Page content.
