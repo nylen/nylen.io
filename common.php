@@ -12,6 +12,7 @@ if ( ! isset( $page_language ) ) {
 $is_error_page = false;
 
 require_once __DIR__ . '/colors.php';
+require_once __DIR__ . '/pages/common.php';
 
 function nylen_redirect_index_php() {
 	// Hide index.php as an implementation detail and avoid duplicated content
@@ -32,19 +33,19 @@ function nylen_redirect_index_php() {
 function nylen_serve_page( $page_path ) {
 	nylen_redirect_index_php();
 
-	// Page header.
+	// Print the page header.
 	nylen_begin_page( $page_path );
 
-	// Page dynamic functionality, if any.
+	// Load page-specific dynamic functionality, if any.
 	$php_file = __DIR__ . '/pages/' . nylen_page_filename( $page_path, 'php' );
 	if ( file_exists( $php_file ) ) {
 		require $php_file;
 	}
 
-	// Page content.
-	nylen_page_content( $page_path );
+	// Print the page content.
+	nylen_echo_page_content( $page_path );
 
-	// Page footer.
+	// Print the page footer.
 	nylen_end_page();
 }
 
@@ -75,7 +76,7 @@ function nylen_serve_blog_index( $blog_path, $year = null, $month = null ) {
 
 	// Placeholder page content.
 	global $page_language;
-	nylen_page_content(
+	nylen_echo_page_content(
 		$page_language === 'es' ? '/es/blog/' : '/blog/'
 	);
 	echo '<!-- ' . json_encode( array(
@@ -157,7 +158,7 @@ function nylen_page_filename( $page_path, $ext = '' ) {
 	return $filename_base . '.' . trim( $ext, '.' );
 }
 
-function nylen_page_content( $page_path ) {
+function nylen_echo_page_content( $page_path ) {
 	// The page content will come from a Markdown source file that is converted
 	// to HTML "just in time" when the Markdown source is updated.
 
@@ -166,18 +167,22 @@ function nylen_page_content( $page_path ) {
 	$md_file   = dirname( __FILE__ ) . '/md/' . $filename_base . '.md';
 	$html_file = dirname( __FILE__ ) . '/html/' . $filename_base . '.html';
 
-	nylen_regenerate_html_if_needed(
+	$content = nylen_regenerate_html_if_needed(
 		$md_file,
 		$html_file,
 		$filename_base
 	);
+
+	// Evaluate dynamic content tags.
+	$content = nylen_parse_content_tags( $content );
+
+	echo $content;
 }
 
 function nylen_regenerate_html_if_needed(
 	$md_file,
 	$html_file,
-	$page_for_logs,
-	$echo = true
+	$page_for_logs
 ) {
 	if (
 		! file_exists( $html_file ) ||
@@ -217,7 +222,7 @@ function nylen_regenerate_html_if_needed(
 			require_once dirname( __FILE__ ) . '/vendor/autoload.php';
 			$html = \Michelf\MarkdownExtra::defaultTransform( file_get_contents( $md_file ) );
 
-			// Embed known images.
+			// Static content processing:  Embed known images.
 			$html = preg_replace_callback(
 				'#src="(/[^"]+\.(gif|jpg|png))"#',
 				function( $matches ) {
@@ -242,36 +247,7 @@ function nylen_regenerate_html_if_needed(
 		$content = file_get_contents( $html_file );
 	}
 
-	// Dynamic feature: GitHub repo count.
-	$content = str_replace(
-		'<code>{repo_count}</code>',
-		nylen_gh_repo_count(),
-		$content
-	);
-
-	// Dynamic feature: Fill previous contact form values.
-	global $contact_form;
-	$content = str_replace(
-		'{contact_name}',
-		htmlentities( $contact_form['name'] ),
-		$content
-	);
-	$content = str_replace(
-		'{contact_email}',
-		htmlentities( $contact_form['email'] ),
-		$content
-	);
-	$content = str_replace(
-		'{contact_message}',
-		htmlentities( $contact_form['message'] ),
-		$content
-	);
-
-	if ( $echo ) {
-		print $content;
-	} else {
-		return $content;
-	}
+	return $content;
 }
 
 function nylen_begin_page( $page_path, $page_title = '' ) {
@@ -625,21 +601,4 @@ function nylen_end_page() {
 		$content
 	);
 	echo $content;
-}
-
-function nylen_gh_repo_count() {
-	global $page_language;
-	// This file is populated by a cron job.
-	$count = trim( @file_get_contents( __DIR__ . '/nylen_github_repo_count' ) );
-	if ( empty( $count ) ) {
-		if ( $page_language === 'es' ) {
-			return '<strong>muchos</strong> proyectos públicos';
-		}
-		return '<strong>a lot</strong> of public repositories';
-	} else {
-		if ( $page_language === 'es' ) {
-			return "<strong>$count</strong> proyectos públicos (y contando)";
-		}
-		return "<strong>$count</strong> public repositories (and counting)";
-	}
 }

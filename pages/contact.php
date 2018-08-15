@@ -28,13 +28,24 @@ if ( isset( $_GET['msg'] ) ) {
 </script>
 <?php
 
-	global $contact_form;
-	$contact_form = array();
+	global $contact_form_saved_values;
+	$contact_form_saved_values = array();
 	foreach ( array( 'name', 'email', 'message' ) as $field ) {
 		if ( isset( $_GET[ $field ] ) && ! $success ) {
-			$contact_form[ $field ] = $_GET[ $field ];
+			$contact_form_saved_values[ $field ] = $_GET[ $field ];
 		} else {
-			$contact_form[ $field ] = '';
+			$contact_form_saved_values[ $field ] = '';
 		}
 	}
 }
+
+nylen_add_content_tag( 'form-value', function( $params ) {
+	global $contact_form_saved_values;
+	if ( ! isset( $params['field'] ) ) {
+		return null; // Invalid tag
+	}
+	if ( ! isset( $contact_form_saved_values[ $params['field'] ] ) ) {
+		return ''; // Empty field
+	}
+	return $contact_form_saved_values[ $params['field'] ]; // Saved value
+} );
