@@ -510,13 +510,23 @@ footer {
 	text-align: center;
 }
 
+span[role=separator]::before {
+	padding: 0 0.2em;
+	content: '\2022';
+}
+
 @media screen and (max-width: 660px) {
-	footer .footer-3 {
+	footer .sep-about-size::before {
+		padding-top: 0.3em;
+		content: '';
 		display: block;
 	}
 }
-@media screen and (max-width: 480px) {
-	footer .footer-2 {
+
+@media screen and (max-width: 412px) {
+	footer .sep-copyright-about::before {
+		padding-top: 0.3em;
+		content: '';
 		display: block;
 	}
 }
@@ -571,21 +581,21 @@ function nylen_end_page() {
 	switch ( $page_language ) {
 		case 'es':
 ?>
-			Derechos &copy; 2018 James Nylen.
-			<span class="footer-2">
-				Hecho a mano con <a href="https://es.wikipedia.org/wiki/Vim">vim</a>.
-			</span>
-			<span class="footer-3">Tamaño de esta página: {PAGE_SIZE}.</span>
+			Derechos &copy; 2018 James Nylen
+			<span role="separator" class="sep-copyright-about"></span>
+			<a href="/es/this-site/">Sobre este sitio</a>
+			<span role="separator" class="sep-about-size"></span>
+			Tamaño de esta página: {PAGE_SIZE}
 <?php
 			break;
 
 		default:
 ?>
-			Copyright &copy; 2018 James Nylen.
-			<span class="footer-2">
-				Hand-coded with <a href="http://www.vim.org/">vim</a>.
-			</span>
-			<span class="footer-3">Page size: {PAGE_SIZE}.</span>
+			Copyright &copy; 2018 James Nylen
+			<span role="separator" class="sep-copyright-about"></span>
+			<a href="/this-site/">About this site</a>
+			<span role="separator" class="sep-about-size"></span>
+			Page size: {PAGE_SIZE}
 <?php
 			break;
 	}
