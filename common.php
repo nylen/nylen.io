@@ -37,7 +37,12 @@ function nylen_serve_page( $page_path ) {
 	nylen_begin_page( $page_path );
 
 	// Load page-specific dynamic functionality, if any.
-	$php_file = __DIR__ . '/pages/' . nylen_page_filename( $page_path, 'php' );
+	$php_file = __DIR__ . '/pages/' . preg_replace(
+		'#^es-#',
+		'',
+		nylen_page_filename( $page_path, 'php' )
+	);
+
 	if ( file_exists( $php_file ) ) {
 		require $php_file;
 	}
