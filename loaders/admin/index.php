@@ -1,17 +1,15 @@
 <?php
 require_once dirname( dirname( dirname( __FILE__ ) ) ) . '/common.php';
-require_once dirname( dirname( dirname( __FILE__ ) ) ) . '/config.php';
 
 nylen_redirect_index_php();
 
-if (
-	! isset( $_SERVER['PHP_AUTH_USER'] ) ||
-	$_SERVER['PHP_AUTH_USER'] !== $config['admin_user'] ||
-	$_SERVER['PHP_AUTH_PW']   !== $config['admin_pass']
-) {
+if ( ! nylen_is_authenticated() ) {
 	nylen_serve_error( 401 );
 	die();
 }
+
+setcookie( 'nylen_session', time(), 0, '/' );
+$_COOKIE['nylen_session'] = time();
 
 nylen_begin_page( '/admin/' );
 

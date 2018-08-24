@@ -11,6 +11,7 @@ if ( ! isset( $page_language ) ) {
 }
 $is_error_page = false;
 
+require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/colors.php';
 require_once __DIR__ . '/pages/common.php';
 
@@ -52,6 +53,19 @@ function nylen_serve_page( $page_path ) {
 
 	// Print the page footer.
 	nylen_end_page();
+}
+
+function nylen_is_authenticated() {
+	global $config;
+	return (
+		isset( $_SERVER['PHP_AUTH_USER'] ) &&
+		$_SERVER['PHP_AUTH_USER'] === $config['admin_user'] &&
+		$_SERVER['PHP_AUTH_PW']   === $config['admin_pass']
+	);
+}
+
+function nylen_is_session() {
+	return ! empty( $_COOKIE['nylen_session'] );
 }
 
 function nylen_canonicalize_url( $page_path ) {
@@ -631,7 +645,10 @@ function nylen_end_page() {
 			<a href="/this-site/">About this site</a>
 			<span role="separator" class="sep-about-size"></span>
 			Page size: {PAGE_SIZE}
-<?php
+<?php if ( nylen_is_session() ) { ?>
+			<span role="separator" class="sep-size-admin"></span>
+			<a href="/admin/">It me</a>
+<?php }
 			break;
 	}
 ?>
