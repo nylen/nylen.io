@@ -363,48 +363,44 @@ ul li, ol li {
 	display: block;
 	margin: 12px 0 18px;
 }
-
 #nav li {
 	list-style: none;
 	display: inline;
 	padding: 0;
 	margin: 0;
 }
-
 #nav li a {
 	display: inline-block;
 	font-weight: bold;
 	padding: 8px 12px;
 	color: <?php color( 'site_nav_link_text' ); ?>;
 }
-
 #nav li a:hover {
 	background: <?php color( 'site_nav_hover_bg' ); ?>;
+	color: <?php color( 'site_nav_hover_text' ); ?>;
 	text-decoration: none;
 }
-
 #nav li.active a {
-	color: #fff;
 	background: <?php color( 'site_nav_active_bg' ); ?>;
+	color: <?php color( 'site_nav_active_text' ); ?>;
 }
-
 #nav li.active a:hover {
-	color: <?php color( 'site_nav_hover_bg' ); ?>;
+	background: <?php color( 'site_nav_active_hover_bg' ); ?>;
+	color: <?php color( 'site_nav_active_hover_text' ); ?>;
 }
-
 #nav li.switch-language {
 	float: right;
 }
 #nav li.switch-language a {
-	background: #fff;
 	font-weight: normal;
 	font-size: 14px;
 	color: <?php color( 'site_nav_subtle_text' ); ?>;
 }
 #nav li.switch-language a:hover {
-	color: <?php color( 'site_nav_link_text' ); ?>;
-	background: <?php color( 'site_nav_hover_bg' ); ?>;
+	background: <?php color( 'site_nav_subtle_hover_bg' ); ?>;
+	color: <?php color( 'site_nav_subtle_hover_text' ); ?>;
 }
+
 hr {
 	border-width: 0;
 	border-bottom: 2px solid <?php color( 'site_borders_hr' ); ?>;
