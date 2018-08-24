@@ -341,6 +341,19 @@ ul li, ol li {
 	margin: 5px 0 5px 24px;
 	line-height: 18px;
 }
+pre, code {
+	background: <?php color( 'site_code_bg' ); ?>;
+	border-radius: 3px;
+}
+pre {
+	padding: 6px;
+	overflow-x: auto;
+	line-height: 19px;
+	margin: 18px 0;
+}
+code {
+	padding: 1px 4px;
+}
 
 #site-title {
 	color: <?php color( 'site_title_text' ); ?>;
