@@ -365,7 +365,7 @@ ul li, ol li {
 	margin: 5px 0 5px 24px;
 	line-height: 18px;
 }
-pre, blockquote, code, var {
+pre, blockquote, code, i.example {
 	background: <?php color( 'site_code_bg' ); ?>;
 }
 pre, blockquote {
@@ -377,7 +377,7 @@ pre {
 	font-size: 14px;
 	line-height: 19px;
 }
-code, var {
+code, i.example {
 	border-radius: 3px;
 	padding: 3px 4px 2px 4px;
 }
@@ -394,6 +394,9 @@ https://www.client9.com/css-system-font-stack-monospace-v2/
 		Courier,
 		monospace;
 	font-size: 14px;
+}
+i.example {
+	font-style: normal;
 }
 blockquote p {
 	margin: 0;
