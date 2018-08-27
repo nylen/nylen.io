@@ -365,18 +365,23 @@ ul li, ol li {
 	margin: 5px 0 5px 24px;
 	line-height: 18px;
 }
-pre, code {
+pre, blockquote, code, var {
 	background: <?php color( 'site_code_bg' ); ?>;
-	border-radius: 3px;
 }
-pre {
-	padding: 6px;
+pre, blockquote {
+	padding: 12px;
 	overflow-x: auto;
-	line-height: 19px;
 	margin: 18px 0;
 }
+pre {
+	font-size: 14px;
+	line-height: 19px;
+}
+code, var {
+	border-radius: 3px;
+	padding: 3px 4px 2px 4px;
+}
 code {
-	padding: 1px 4px;
 <?php /*
 Monospace system font stack:
 https://www.client9.com/css-system-font-stack-monospace-v2/
@@ -388,6 +393,13 @@ https://www.client9.com/css-system-font-stack-monospace-v2/
 		Menlo,
 		Courier,
 		monospace;
+	font-size: 14px;
+}
+blockquote p {
+	margin: 0;
+}
+blockquote p + p {
+	margin-top: 18px;
 }
 
 #site-title {
