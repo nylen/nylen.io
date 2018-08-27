@@ -346,18 +346,8 @@ h1 {
 	text-transform: uppercase;
 }
 h2 {
-<?php /*
-Serif system font stack:
-https://github.com/thoughtbot/bourbon/blob/v5.1.0/core/bourbon/library/_font-stacks.scss#L109
-*/ ?>
-	font-family: "Garamond",
-		"Baskerville",
-		"Baskerville Old Face",
-		"Hoefler Text",
-		"Times New Roman",
-		serif;
-	font-size: 28px;
-	line-height: 28px;
+	font-size: 24px;
+	line-height: 24px;
 	color: <?php color( 'site_h2_text' ); ?>;
 }
 h3 {
@@ -489,11 +479,6 @@ fieldset {
 }
 fieldset label {
 	color: <?php color( 'site_form_label_text' ); ?>;
-	<?php /* Serif system font stack */ ?>
-	font-family: "Garamond",
-		"Baskerville", "Baskerville Old Face",
-		"Hoefler Text", "Times New Roman",
-		serif;
 	font-weight: bold;
 	display: block;
 	font-size: 18px;
