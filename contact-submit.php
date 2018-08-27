@@ -1,6 +1,6 @@
 <?php
 
-require_once dirname( __FILE__ ) . '/contact-messages.php';
+require_once __DIR__ . '/contact-messages.php';
 
 if (
 	$_SERVER['REQUEST_METHOD'] !== 'POST' ||
@@ -48,7 +48,7 @@ if ( empty( $messages ) ) {
 		'ua'       => $_SERVER['HTTP_USER_AGENT'],
 	);
 	$written = @file_put_contents(
-		dirname( __FILE__ ) . '/html/contact.js',
+		__DIR__ . '/html/contact.js',
 		json_encode(
 			$entry,
 			JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE

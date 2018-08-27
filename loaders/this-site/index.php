@@ -1,3 +1,3 @@
 <?php
-require_once dirname( dirname( dirname( __FILE__ ) ) ) . '/common.php';
+require_once dirname( dirname( __DIR__ ) ) . '/common.php';
 nylen_serve_page( '/this-site/' );

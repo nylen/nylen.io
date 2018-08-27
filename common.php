@@ -189,8 +189,8 @@ function nylen_echo_page_content( $page_path ) {
 
 	$filename_base = nylen_page_filename( $page_path );
 
-	$md_file   = dirname( __FILE__ ) . '/md/' . $filename_base . '.md';
-	$html_file = dirname( __FILE__ ) . '/html/' . $filename_base . '.html';
+	$md_file   = __DIR__ . '/md/' . $filename_base . '.md';
+	$html_file = __DIR__ . '/html/' . $filename_base . '.html';
 
 	$content = nylen_regenerate_html_if_needed(
 		$md_file,
@@ -244,14 +244,14 @@ function nylen_regenerate_html_if_needed(
 		} else {
 			// We got the lock.  Convert Markdown to HTML and save the result.
 			error_log( "generate page: $page_for_logs: start" );
-			require_once dirname( __FILE__ ) . '/vendor/autoload.php';
+			require_once __DIR__ . '/vendor/autoload.php';
 			$html = \Michelf\MarkdownExtra::defaultTransform( file_get_contents( $md_file ) );
 
 			// Static content processing:  Embed known images.
 			$html = preg_replace_callback(
 				'#src="(/[^"]+\.(gif|jpg|png))"#',
 				function( $matches ) {
-					$src = dirname( dirname( __FILE__ ) ) . $matches[1];
+					$src = dirname( __DIR__ ) . $matches[1];
 					$data = base64_encode( file_get_contents( $src ) );
 					$type = mime_content_type( $src );
 					return "src=\"data:$type;base64,$data\"";

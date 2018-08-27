@@ -1,5 +1,5 @@
 <?php
-require_once dirname( dirname( dirname( __FILE__ ) ) ) . '/common.php';
+require_once dirname( dirname( __DIR__ ) ) . '/common.php';
 
 nylen_redirect_index_php();
 
@@ -15,7 +15,7 @@ require dirname( dirname( __DIR__ ) ) . '/pages/admin.php';
 $has_translation = false;
 nylen_begin_page( '/admin/' );
 
-$fp = fopen( dirname( dirname( dirname( __FILE__ ) ) ) . '/html/contact.js', 'r' );
+$fp = fopen( dirname( dirname( __DIR__ ) ) . '/html/contact.js', 'r' );
 $line_num = 0;
 
 ?>

@@ -1,3 +1,3 @@
 <?php
 $page_language = 'es';
-require_once dirname( dirname( dirname( __FILE__ ) ) ) . '/blog/index.php';
+require_once dirname( dirname( __DIR__ ) ) . '/blog/index.php';

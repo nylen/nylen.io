@@ -1,5 +1,5 @@
 <?php
-require_once dirname( dirname( dirname( __FILE__ ) ) ) . '/common.php';
+require_once dirname( dirname( __DIR__ ) ) . '/common.php';
 
 if ( ! isset( $page_language ) ) {
 	$page_language = 'en';
