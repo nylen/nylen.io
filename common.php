@@ -34,9 +34,6 @@ function nylen_redirect_index_php() {
 function nylen_serve_page( $page_path ) {
 	nylen_redirect_index_php();
 
-	// Print the page header.
-	nylen_begin_page( $page_path );
-
 	// Load page-specific dynamic functionality, if any.
 	$php_file = __DIR__ . '/pages/' . preg_replace(
 		'#^es-#',
@@ -47,6 +44,9 @@ function nylen_serve_page( $page_path ) {
 	if ( file_exists( $php_file ) ) {
 		require $php_file;
 	}
+
+	// Print the page header.
+	nylen_begin_page( $page_path );
 
 	// Print the page content.
 	nylen_echo_page_content( $page_path );
@@ -90,10 +90,13 @@ function nylen_serve_blog_index( $blog_path, $year = null, $month = null ) {
 	$page_path = nylen_blog_path_to_page_path( $blog_path );
 	nylen_canonicalize_url( $page_path );
 
-	// Page header.
+	// Load dynamic functionality and styles common to all blog pages.
+	require __DIR__ . '/pages/blog-common.php';
+
+	// Print the page header.
 	nylen_begin_page( $page_path );
 
-	// Placeholder page content.
+	// Print some placeholder page content.
 	global $page_language;
 	nylen_echo_page_content(
 		$page_language === 'es' ? '/es/blog/' : '/blog/'
@@ -106,7 +109,7 @@ function nylen_serve_blog_index( $blog_path, $year = null, $month = null ) {
 		'month' => $month,
 	), JSON_UNESCAPED_SLASHES ) . ' -->';
 
-	// Page footer.
+	// Print the page footer.
 	nylen_end_page();
 }
 
@@ -114,10 +117,13 @@ function nylen_serve_blog_post( $blog_path, $year, $month, $slug ) {
 	$page_path = nylen_blog_path_to_page_path( $blog_path );
 	nylen_canonicalize_url( $page_path );
 
-	// Page header.
+	// Load dynamic functionality and styles common to all blog pages.
+	require __DIR__ . '/pages/blog-common.php';
+
+	// Print the page header.
 	nylen_begin_page( $page_path );
 
-	// Placeholder page content.
+	// Print some placeholder page content.
 	print json_encode( array(
 		'type'  => 'blog post',
 		'lang'  => $GLOBALS['page_language'],
@@ -270,7 +276,7 @@ function nylen_regenerate_html_if_needed(
 }
 
 function nylen_begin_page( $page_path, $page_title = '' ) {
-	global $nav_items, $page_language, $is_error_page;
+	global $nav_items, $page_language, $is_error_page, $nylen_page_css;
 
 	if ( ! isset( $page_language ) ) {
 		if ( preg_match( '#^/es/#', $page_path ) ) {
@@ -471,109 +477,11 @@ hr {
 	margin: 24px 0;
 }
 
-/* Begin page-specific styles */
-<?php if ( preg_match( '#/contact/$#', $page_path ) ) { ?>
-.messages {
-	border-left: 3px solid <?php color( 'site_borders_hr' ); ?>;
-	padding: 8px 8px 8px 10px;
-}
-.messages.success {
-	border-color: #080;
-	background: #cfc;
-	color: #040;
-}
-.messages.error {
-	border-left-color: #800;
-	background: #fcc;
-	color: #400;
-}
-
-fieldset {
-	border: none;
-	margin: 12px 0;
-}
-fieldset label {
-	color: <?php color( 'site_form_label_text' ); ?>;
-	font-weight: bold;
-	display: block;
-	font-size: 18px;
-}
-
-fieldset.inline label {
-	display: inline-block;
-	width: 120px;
-	margin-bottom: 0;
-	vertical-align: middle;
-}
-fieldset.inline input {
-	vertical-align: middle;
-}
-
-fieldset .description {
-	font-size: 14px;
-	color: <?php color( 'site_subtle_text' ); ?>;
-	margin-top: 4px;
-}
-
-input[type="text"], textarea {
-	border: 1px solid <?php color( 'site_form_borders' ); ?>;
-	font-size: 16px;
-	padding: 3px;
-}
-
-fieldset textarea {
-	margin-top: 4px;
-	width: 100%;
-	height: 200px;
-	resize: vertical;
-}
-
-input[type="submit"] {
-	padding: 6px;
-	font-size: 18px;
-}
-
-#privacy {
-	color: <?php color( 'site_subtle_text' ); ?>;
-	font-size: 14px;
-	font-style: italic;
-}
-<?php } else if ( preg_match( '#/blog/#', $page_path ) ) { ?>
-.under-construction {
-	margin: 30px 0;
-	text-align: center;
-}
-<?php } else if ( preg_match( '#^/admin/$#', $page_path ) ) { ?>
-table#contacts th {
-	text-align: left;
-}
-table#contacts .date {
-	min-width: 215px;
-}
-table#contacts .number {
-	min-width: 20px;
-	text-align: right;
-}
-table#contacts .date,
-table#contacts .name,
-table#contacts .email,
-table#contacts .number {
-	padding-top: 20px;
-	padding-bottom: 4px;
-}
-table#contacts .message {
-	padding: 2px 6px;
-	margin-left: 6px;
-	border-left: 2px solid <?php color( 'site_borders_hr' ); ?>;
-}
-table#contacts .details {
-	font-style: italic;
-	color: <?php color( 'site_subtle_text' ); ?>;
-	font-size: 85%;
-	padding-top: 4px;
-}
-<?php } ?>
-/* End page-specific styles */
+<?php if ( ! empty( $nylen_page_css ) ) {
+	echo "/* Begin page-specific styles */\n";
+	echo "$nylen_page_css\n";
+	echo "/* End page-specific styles */\n";
+} ?>
 
 footer {
 	margin-top: 24px;

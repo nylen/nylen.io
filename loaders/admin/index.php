@@ -11,6 +11,7 @@ if ( ! nylen_is_authenticated() ) {
 setcookie( 'nylen_session', time(), 0, '/' );
 $_COOKIE['nylen_session'] = time();
 
+require dirname( dirname( __DIR__ ) ) . '/pages/admin.php';
 nylen_begin_page( '/admin/' );
 
 $fp = fopen( dirname( dirname( dirname( __FILE__ ) ) ) . '/html/contact.js', 'r' );

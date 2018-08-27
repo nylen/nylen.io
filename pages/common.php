@@ -1,6 +1,7 @@
 <?php
 
 $GLOBALS['nylen_tags'] = array();
+$GLOBALS['nylen_page_css'] = '';
 
 function nylen_add_content_tag( $tag_name, $callback ) {
 	global $nylen_tags;
@@ -38,6 +39,25 @@ function nylen_parse_content_tags( $content ) {
 	);
 
 	return $content;
+}
+
+function nylen_begin_add_page_css() {
+	ob_start();
+}
+
+function nylen_end_add_page_css() {
+	global $nylen_page_css;
+	$css = trim( ob_get_clean() );
+	// Allow CSS sections to be wrapped in a <style> tag
+	// This makes vim syntax highlighting work as expected
+	if ( substr( $css, 0, 7 ) === '<style>' ) {
+		$css = substr( $css, 7 );
+	}
+	if ( substr( $css, -8 ) === '</style>' ) {
+		$css = substr( $css, 0, -8 );
+	}
+	$css = trim( $css );
+	$nylen_page_css = trim( "$nylen_page_css\n\n$css" );
 }
 
 // Dynamic feature: Public repo count on my GitHub account.
