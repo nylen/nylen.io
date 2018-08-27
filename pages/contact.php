@@ -18,6 +18,9 @@ nylen_begin_add_page_css();
 	background: #fcc;
 	color: #400;
 }
+.messages .message + .message {
+	margin-top: 4px;
+}
 
 fieldset {
 	border: none;
