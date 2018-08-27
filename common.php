@@ -308,8 +308,18 @@ function nylen_begin_page( $page_path, $page_title = '' ) {
 body {
 	background: #fff;
 	color: <?php color( 'site_body_text' ); ?>;
-	font-family: "Open Sans", sans-serif;
-	font-weight: 400;
+<?php /*
+Sans-serif system font stack:
+https://nanx.me/blog/post/the-return-of-the-native-font-stack/
+*/ ?>
+	font-family: -apple-system,
+		BlinkMacSystemFont,
+		"Segoe UI",
+		Roboto,
+		"Helvetica Neue",
+		Arial,
+		sans-serif;
+	font-weight: normal;
 	font-size: 16px;
 	margin: 20px auto;
 	padding: 0 20px;
@@ -326,7 +336,7 @@ img {
 	border: none;
 }
 h1, h2, h3 {
-	font-weight: 600;
+	font-weight: bold;
 	margin-top: 1em;
 	margin-bottom: 0.5em;
 }
@@ -336,8 +346,18 @@ h1 {
 	text-transform: uppercase;
 }
 h2 {
-	font-size: 24px;
-	line-height: 24px;
+<?php /*
+Serif system font stack:
+https://github.com/thoughtbot/bourbon/blob/v5.1.0/core/bourbon/library/_font-stacks.scss#L109
+*/ ?>
+	font-family: "Garamond",
+		"Baskerville",
+		"Baskerville Old Face",
+		"Hoefler Text",
+		"Times New Roman",
+		serif;
+	font-size: 28px;
+	line-height: 28px;
 	color: <?php color( 'site_h2_text' ); ?>;
 }
 h3 {
@@ -367,6 +387,17 @@ pre {
 }
 code {
 	padding: 1px 4px;
+<?php /*
+Monospace system font stack:
+https://www.client9.com/css-system-font-stack-monospace-v2/
+*/ ?>
+	font-family:
+		"SFMono-Regular",
+		Consolas,
+		"Liberation Mono",
+		Menlo,
+		Courier,
+		monospace;
 }
 
 #site-title {
@@ -458,7 +489,12 @@ fieldset {
 }
 fieldset label {
 	color: <?php color( 'site_form_label_text' ); ?>;
-	font-weight: 600;
+	<?php /* Serif system font stack */ ?>
+	font-family: "Garamond",
+		"Baskerville", "Baskerville Old Face",
+		"Hoefler Text", "Times New Roman",
+		serif;
+	font-weight: bold;
 	display: block;
 	font-size: 18px;
 }
