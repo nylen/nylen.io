@@ -12,11 +12,21 @@ function nylen_add_content_tag( $tag_name, $callback ) {
 function nylen_parse_content_tags( $content ) {
 	global $nylen_tags;
 
+	$content_tag_regex = '<\s*nylen:(?P<tag>[a-z-]+)\s+(?P<params>.*?)\s*/>';
+
+	// Tags that stand on their own line are assumed to be block-level and
+	// should provide their own <p> wrapper if needed.
+	$content = preg_replace(
+		'#^<p>(' . $content_tag_regex . ')</p>$#m',
+		'$1',
+		$content
+	);
+
 	// This parsing is definitely not perfect!  If ">" appears in the tag
 	// parameters, it should be escaped as "&lt;".
 	$content = preg_replace_callback(
-		'#<\s*nylen:(?P<tag>[a-z-]+)\s+(?P<params>.*?)\s*/>#',
-		function ( $match ) use ( $nylen_tags ) {
+		'#' . $content_tag_regex . '#',
+		function( $match ) use ( $nylen_tags ) {
 			$tag    = $match['tag'];
 			$params = $match['params'];
 			if ( isset( $nylen_tags[ $tag ] ) ) {
