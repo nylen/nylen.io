@@ -9,7 +9,7 @@ $nav_items = array(
 if ( ! isset( $page_language ) ) {
 	$page_language = null;
 }
-$is_error_page = false;
+$has_translation = true;
 
 require_once __DIR__ . '/config.php';
 require_once __DIR__ . '/colors.php';
@@ -132,14 +132,14 @@ function nylen_serve_blog_post( $blog_path, $year, $month, $slug ) {
 		'month' => $month,
 	), JSON_UNESCAPED_SLASHES );
 
-	// Page footer.
+	// Print the page footer.
 	nylen_end_page();
 }
 
 function nylen_serve_error( $code ) {
-	global $page_language, $is_error_page;
+	global $page_language, $has_translation;
 
-	$is_error_page = true;
+	$has_translation = false;
 
 	switch ( $code ) {
 		case 401:
@@ -276,7 +276,7 @@ function nylen_regenerate_html_if_needed(
 }
 
 function nylen_begin_page( $page_path, $page_title = '' ) {
-	global $nav_items, $page_language, $is_error_page, $nylen_page_css;
+	global $nav_items, $page_language, $has_translation, $nylen_page_css;
 
 	if ( ! isset( $page_language ) ) {
 		if ( preg_match( '#^/es/#', $page_path ) ) {
@@ -540,7 +540,7 @@ span[role=separator]::before {
 		echo '</li>';
 		echo "\n";
 	}
-	if ( ! $is_error_page ) {
+	if ( $has_translation ) {
 		if ( $page_language === 'es' ) {
 			$switch_language_url   = preg_replace( '#^/es/#', '/', $page_path );
 			$switch_language_text  = 'In English';
