@@ -251,7 +251,7 @@ function nylen_regenerate_html_if_needed(
 			$html = preg_replace_callback(
 				'#src="(/[^"]+\.(gif|jpg|png))"#',
 				function( $matches ) {
-					$src = dirname( __DIR__ ) . $matches[1];
+					$src = __DIR__ . '/' . $matches[1];
 					$data = base64_encode( file_get_contents( $src ) );
 					$type = mime_content_type( $src );
 					return "src=\"data:$type;base64,$data\"";
