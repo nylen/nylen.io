@@ -13,20 +13,12 @@ if ( $_SERVER['SCRIPT_NAME'] === '/site/contact-submit.php' ) {
 
 $loader_filename = __DIR__ . '/loaders' . $_SERVER['SCRIPT_NAME'] . '/index.php';
 if ( file_exists( $loader_filename ) ) {
-	// XXX DOES NOT WORK (`/contact/` → `/contact//`):
-	//$url_normalized = preg_replace(
-	//	'#/*(\?|$)#',
-	//	'/$1',
-	//	$_SERVER['REQUEST_URI']
-	//);
-	$url_pieces = preg_split(
-		'#(\?|$)#',
+	$url_normalized = preg_replace(
+		'#/*(\?|$)#',
+		'/$1',
 		$_SERVER['REQUEST_URI'],
-		2,
-		PREG_SPLIT_DELIM_CAPTURE
+		1
 	);
-	$url_pieces[0] = rtrim( $url_pieces[0], '/' ) . '/';
-	$url_normalized = implode( '', $url_pieces );
 	if ( $_SERVER['REQUEST_URI'] !== $url_normalized ) {
 		/* TODO this behaves a bit differently than the live site (Apache):
 		 * |----------------|---------------------|---------------------|
