@@ -30,17 +30,21 @@ function nylen_parse_content_tags( $content ) {
 			$tag    = $match['tag'];
 			$params = $match['params'];
 			if ( isset( $nylen_tags[ $tag ] ) ) {
-				try {
-					$el = (array) @new SimpleXmlElement( "<el $params />" );
-					$params = $el['@attributes'];
-					$result = call_user_func( $nylen_tags[ $tag ], $params );
-					if ( is_string( $result ) ) {
-						return $result;
+				if ( ! empty( $params ) ) {
+					try {
+						$el = (array) @new SimpleXmlElement( "<el $params />" );
+						$params = $el['@attributes'] ?? array();
+						// Result is not a string; fall through to 2nd return
+					} catch ( ErrorException $ex ) {
+						// Probably an XML parse error
+						return '<!-- ' . htmlentities( $ex->getMessage() ) . ' -->';
 					}
-					// Result is not a string; fall through to 2nd return
-				} catch ( ErrorException $ex ) {
-					// Probably an XML parse error
-					return '<!-- ' . htmlentities( $ex->getMessage() ) . ' -->';
+				} else {
+					$params = array();
+				}
+				$result = call_user_func( $nylen_tags[ $tag ], $params );
+				if ( is_string( $result ) ) {
+					return $result;
 				}
 			}
 			return '<!-- ' . htmlentities( $match[0] ) . ' -->';
