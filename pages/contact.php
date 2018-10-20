@@ -55,6 +55,11 @@ input[type="text"], textarea {
 	padding: 3px;
 }
 
+input[type="text"]:focus, textarea:focus {
+<?php /* TODO: add a code for this color  */ ?>
+	box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+}
+
 fieldset textarea {
 	margin-top: 4px;
 	width: 100%;
