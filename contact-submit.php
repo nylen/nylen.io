@@ -50,10 +50,10 @@ if ( empty( $messages ) ) {
 	);
 	$spam_check = contact_message_is_spam( $entry );
 	if ( $spam_check['is_spam'] ) {
-		error_log(
-			'Spam check FAILED: '
-			. json_encode( compact( 'entry', 'spam_check' ) )
-		);
+		error_log( 'Spam check FAILED: ' . json_encode(
+			compact( 'entry', 'spam_check' ),
+			JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+		) );
 		$messages[] = $contact_messages['MSG_UNKNOWN_ERROR'];
 	} else {
 		$entry['spam_score'] = $spam_check['score'];
