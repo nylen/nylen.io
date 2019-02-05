@@ -1,5 +1,6 @@
 <?php
 
+require_once __DIR__ . '/contact-antispam.php';
 require_once __DIR__ . '/contact-messages.php';
 
 if (
@@ -47,18 +48,28 @@ if ( empty( $messages ) ) {
 		'language' => $language,
 		'ua'       => $_SERVER['HTTP_USER_AGENT'],
 	);
-	$written = @file_put_contents(
-		__DIR__ . '/html/contact.js',
-		json_encode(
-			$entry,
-			JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
-		) . "\n",
-		FILE_APPEND
-	);
-	if ( $written ) {
-		$messages[] = $contact_messages['MSG_OK'];
-	} else {
+	$spam_check = contact_message_is_spam( $entry );
+	if ( $spam_check['is_spam'] ) {
+		error_log(
+			'Spam check FAILED: '
+			. json_encode( compact( 'entry', 'spam_check' ) )
+		);
 		$messages[] = $contact_messages['MSG_UNKNOWN_ERROR'];
+	} else {
+		$entry['spam_score'] = $spam_check['score'];
+		$written = @file_put_contents(
+			__DIR__ . '/html/contact.js',
+			json_encode(
+				$entry,
+				JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
+			) . "\n",
+			FILE_APPEND
+		);
+		if ( $written ) {
+			$messages[] = $contact_messages['MSG_OK'];
+		} else {
+			$messages[] = $contact_messages['MSG_UNKNOWN_ERROR'];
+		}
 	}
 }
 

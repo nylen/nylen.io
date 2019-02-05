@@ -1,8 +1,10 @@
 TODO
+antispam.txt
 config.php
 nylen_github_repo_count
 html/*.html
 html/contact.js
+html/contact.*.js
 images/*
 !images/.gitkeep
 md/*
