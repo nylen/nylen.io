@@ -571,10 +571,11 @@ function nylen_end_page() {
 		</div><!-- #content -->
 		<footer>
 <?php
+	$year = date( 'Y' );
 	switch ( $page_language ) {
 		case 'es':
 ?>
-			Derechos &copy; 2018 James Nylen
+			Derechos &copy; <?php echo $year; ?> James Nylen
 			<span role="separator" class="sep-copyright-about"></span>
 			<a href="/es/this-site/">Sobre este sitio</a>
 			<span role="separator" class="sep-about-size"></span>
@@ -584,7 +585,7 @@ function nylen_end_page() {
 
 		default:
 ?>
-			Copyright &copy; 2018 James Nylen
+			Copyright &copy; <?php echo $year; ?> James Nylen
 			<span role="separator" class="sep-copyright-about"></span>
 			<a href="/this-site/">About this site</a>
 			<span role="separator" class="sep-about-size"></span>
