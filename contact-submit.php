@@ -26,7 +26,7 @@ if (
 if (
 	! isset( $_POST['email'] ) ||
 	strlen( $_POST['email'] ) < 3 ||
-	! preg_match( '#^[a-z0-9_.+-]+@[a-z0-9.-]+\.[a-z]{2,}$#', $_POST['email'] )
+	! preg_match( '#^[a-z0-9_.+-]+@[a-z0-9.-]+\.[a-z]{2,}$#i', $_POST['email'] )
 ) {
 	$messages[] = $contact_messages['MSG_EMAIL_INVALID'];
 }
