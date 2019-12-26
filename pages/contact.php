@@ -129,7 +129,7 @@ nylen_add_content_tag( 'form-messages', function() {
 	return $html;
 } );
 
-nylen_add_content_tag( 'form-value', function( $params ) {
+function contact_tag_form_value_impl( $params ) {
 	global $contact_form_saved_values;
 	if ( ! isset( $params['field'] ) ) {
 		return null; // Invalid tag
@@ -138,4 +138,12 @@ nylen_add_content_tag( 'form-value', function( $params ) {
 		return ''; // Empty field
 	}
 	return $contact_form_saved_values[ $params['field'] ]; // Saved value
+}
+
+nylen_add_content_tag( 'form-value', function( $params ) {
+	return contact_tag_form_value_impl( $params );
+} );
+
+nylen_add_content_tag( 'form-value-htmlencode', function( $params ) {
+	return htmlspecialchars( contact_tag_form_value_impl( $params ), ENT_QUOTES );
 } );
